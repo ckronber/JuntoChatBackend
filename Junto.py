@@ -12,7 +12,7 @@ def my_event(sid, data):
     return "OK", 123
 #print(os.urandom(16))
 
-# new comment to check of this is going to update
+# updated message now in VS Code
 
 '''
 app = Flask(__name__)
