@@ -2,6 +2,9 @@ import sqlite3 as sq3
 
 class dbConnection():
     def __init__(self,dbName):
+        print(sq3.version)
+        print(sq3.sqlite_version)
+
         fullPath = "Sqlite3_examples/"+dbName + ".db"
         con = sq3.connect(fullPath)
         self.con = con
