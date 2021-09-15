@@ -17,7 +17,10 @@ class VideoModel(db.Model):
     def __repr__(self):
         return f"Video(name={self.name}, views = {self.views}, likes = {self.likes}"
 
-#db.create_all() # only used the first time to setup the database
+if(db.exists):
+    pass
+else:
+    db.create_all() # only used the first time to setup the database
 
 video_put_args = reqparse.RequestParser()
 video_put_args.add_argument("name", type=str, help="Name of the video is required",required=True)
@@ -40,7 +43,7 @@ class HelloWorld(Resource):
         result = VideoModel.query.filter_by(id=video_id).first()
         if not result:
             abort(404, message="Could not find video with that id")
-        return result
+        return result, 200
 
     @marshal_with(resource_fields)
     def put(self,video_id):
@@ -74,9 +77,12 @@ class HelloWorld(Resource):
         return result, 201
 
     def delete(self,video_id):
-        abort_if_video_id_doesnt_exist(video_id)
-        del videos[video_id]
-        return '', 204
+        result = VideoModel.query.filter_by(id=video_id).first()
+        if not result:
+            abort(404, message="Could not find video with that id")
+        db.session.delete(result)
+        db.session.commit()
+        return 'Deleted', 204
         
 api.add_resource(HelloWorld,"/video/<int:video_id>")
 
