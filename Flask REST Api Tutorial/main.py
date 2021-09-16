@@ -40,7 +40,11 @@ resource_fields = {'id': fields.Integer,
 class HelloWorld(Resource):
     @marshal_with(resource_fields)
     def get(self,video_id):
-        result = VideoModel.query.filter_by(id=video_id).first()
+        if(video_id):
+            result = VideoModel.query.filter_by(id=video_id).first()
+        else:
+            result = VideoModel.data.all()
+            
         if not result:
             abort(404, message="Could not find video with that id")
         return result, 200
@@ -83,8 +87,9 @@ class HelloWorld(Resource):
         db.session.delete(result)
         db.session.commit()
         return 'Deleted', 204
-        
+    
 api.add_resource(HelloWorld,"/video/<int:video_id>")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
