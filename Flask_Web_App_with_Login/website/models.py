@@ -6,19 +6,23 @@ from sqlalchemy.sql import func
 EMAIL_LENGTH = PASS_LENGTH = NAME_LENGTH = 150
 DATA_LENGTH = 10000
 
-class Note(db.Model):
+class Chat(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    data = db.Column(db.String(DATA_LENGTH))
+    message = db.Column(db.String(DATA_LENGTH))
+    message_type = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone = True),default=func.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    users = db.relationship('Users')
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails
     password = db.Column(db.String(PASS_LENGTH))
     first_name = db.Column(db.String(NAME_LENGTH))
-    notes = db.relationship('Note')
-    channels = db.realationship('Channel')
+    userName = db.Column(db.String(NAME_LENGTH),unique = True)
+    chats = db.relationship('Chat')
+    channels = db.relationship('Channel')
+    userList = db.relationship('UserList')
 
 class Channel(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -26,7 +30,13 @@ class Channel(db.Model):
     description = db.Column(db.String(NAME_LENGTH), unique = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-class Team(db.Model):
+class UserList(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(NAME_LENGTH), unique = True)
+    userName = db.Column(db.String(NAME_LENGTH),unique=True)
+    firstName = db.Column(db.String(NAME_LENGTH))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Users(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    userName = db.Column(db.String(NAME_LENGTH),unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('chat.id'))

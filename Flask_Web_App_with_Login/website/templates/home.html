@@ -1,11 +1,18 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
     %}
-    <h1 align="center">Notes</h1>
+
+    <h3 align="left">Users</h3>
+    <div align ="left" width = "500px" border = "solid, black" >
+    {{user.email}}
+    </div>
+    <br>
+    <hr>
+    <h3 align="center">Messages</h3>
     <ul class="list-group list-group-flush" id="notes">
-      {% for note in user.notes %}
+      {% for chat in user.chats %}
       <li class="list-group-item">
-        {{ note.data }}
-        <button type="button" class="close" onClick="deleteNote('{{note.id}}')">
+        {{chat.message}}
+        <button type="button" class="close" onClick="deleteNote('{{chat.id}}')">
           <span aria-hidden="true">&times;</span>
         </button>
       </li>

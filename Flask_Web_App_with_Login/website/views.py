@@ -2,7 +2,7 @@ from flask import Blueprint,request,flash,jsonify
 from flask.helpers import url_for
 from flask import render_template
 from flask_login import login_user,login_required,current_user
-from .models import Note
+from .models import Chat
 from . import db
 from datetime import datetime
 import json
@@ -17,9 +17,9 @@ def home():
         note = request.form.get('note')
 
         if len(note) < 1:
-            flash('Note is too short!', category='error')
+            flash('Cannot enter nothing into chat', category='error')
         else:
-            new_note = Note(data=note, date = datetime.now(),user_id = current_user.id)
+            new_note = Chat(message=note, date = datetime.now(),user_id = current_user.id)
             db.session.add(new_note)
             db.session.commit()
             flash('Note added!',category='success')
@@ -31,7 +31,7 @@ def home():
 def deletenote():
     note = json.loads(request.data)
     noteId = note['noteId']
-    note = Note.query.get(noteId)
+    note = Chat.query.get(noteId)
     if note:
         if note.user_id == current_user.id:
             db.session.delete(note)
