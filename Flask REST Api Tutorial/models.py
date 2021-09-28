@@ -1,9 +1,11 @@
 from enum import unique
 from sqlalchemy.sql.functions import user
-from . import db
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from sqlalchemy.sql import func
 from datetime import datetime
+
+db = SQLAlchemy()
 
 EMAIL_LENGTH = PASS_LENGTH = NAME_LENGTH = 150
 DATA_LENGTH = 10000
@@ -30,7 +32,7 @@ class Note(db.Model):
             return f"{time_stamp['month']}/{time_stamp['day']}/{time_stamp['year']}"
 
 
-class User(db.Model,UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails
     password = db.Column(db.String(PASS_LENGTH))
@@ -57,3 +59,12 @@ class Team(db.Model):
 
     def __repr__(self):
         return f"id: {self.id}: TeamName: {self.name}"
+
+class VideoModel(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(100),nullable=False)
+    views = db.Column(db.Integer,nullable=False)
+    likes = db.Column(db.Integer,nullable=False)
+
+    def __repr__(self):
+        return f"Video(name={self.name}, views = {self.views}, likes = {self.likes}"
