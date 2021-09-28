@@ -3,14 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
-DB_NAME = "database"
+DB_NAME = "database.db"
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'mySecretKey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
     db.init_app(app)
 
     from .views import views
@@ -29,7 +29,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
-        
+
     return app
 
 def create_database(app):
