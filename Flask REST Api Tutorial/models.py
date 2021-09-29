@@ -10,7 +10,6 @@ db = SQLAlchemy()
 EMAIL_LENGTH = PASS_LENGTH = NAME_LENGTH = 150
 DATA_LENGTH = 10000
 
-
 class Note(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     data = db.Column(db.String(DATA_LENGTH))

@@ -4,6 +4,8 @@ from time import sleep
 from main import HelloWorld,GetAll
 from models import VideoModel
 from flask_sqlalchemy import SQLAlchemy
+from flask_restful import fields
+
 #Base = "http://127.0.0.1:3000/"
 
 #data = [ {"likes":78,"name":"Chris","views":1000000},  
@@ -29,3 +31,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 print(get_time(1))
 """
+
+
+resource_fields = {    'id': fields.Integer,
+                       'name': fields.String,
+                       'views': fields.Integer,
+                       'likes': fields.Integer,
+                       'data': fields.String,
+                       'date':fields.DateTime,
+                       'user_id':fields.Integer,
+                       'email':fields.String,
+                       'password':fields.String,
+                       'first_name':fields.String,
+                       'description':fields.String,
+                  }
+
+print(resource_fields['id'] == fields.Integer)
