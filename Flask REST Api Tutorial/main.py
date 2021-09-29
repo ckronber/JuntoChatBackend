@@ -2,7 +2,7 @@ from flask import Flask,jsonify,request,render_template
 from flask_restful import Api, Resource,reqparse,abort,fields,marshal_with
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO,send,emit
-from controller import db,GetAll,HelloWorld
+from controller import db,GetAllVideos,VideoById,UserById
 from os import path
 
 DATABASE_NAME = "ChatDatabase.db"
@@ -19,8 +19,9 @@ if not(path.exists(DATABASE_NAME)):
 
 #socketio = SocketIO(app)
 
-api.add_resource(GetAll,"/video")
-api.add_resource(HelloWorld,"/video/<int:video_id>")
+api.add_resource(GetAllVideos,"/video")
+api.add_resource(VideoById,"/video/<int:video_id>")
+api.add_resource(UserById, "/user/<int:user_id>")
 
 if __name__ == "__main__":
     #socketio.run(app,host='localhost',port = 3000,debug=True)

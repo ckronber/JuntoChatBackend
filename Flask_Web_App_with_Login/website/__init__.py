@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from flask_socketio import SocketIO
+from .models import User,Note
+from .views import views
+from .auth import auth
 
 DB_NAME = "database.db"
 db = SQLAlchemy()
@@ -15,13 +18,9 @@ def create_app():
     db.init_app(app)
     socketio = SocketIO(app)
 
-    from .views import views
-    from .auth import auth
-
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import User,Note
     create_database(app)
 
     login_manager = LoginManager()

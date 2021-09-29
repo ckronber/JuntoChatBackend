@@ -30,7 +30,6 @@ class Note(db.Model):
         if(time_format == 3):
             return f"{time_stamp['month']}/{time_stamp['day']}/{time_stamp['year']}"
 
-
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails

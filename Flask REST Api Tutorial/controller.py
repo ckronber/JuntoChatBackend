@@ -38,7 +38,6 @@ class _Resources():
         'user_id': fields.Integer
     }
 
-
 class add_update_args():
     def video(add_or_update:int):
         if(add_or_update == 1):
@@ -110,16 +109,65 @@ class add_update_args():
             team_update_args.add_argument("likes", type=int)
             return team_update_args
 
-class GetById(Resource):
+class UserById(Resource):
+    @marshal_with(_Resources.user_fields)
+    def get(self,user_id):
+        if(user_id):
+            result = User.query.filter_by(id = user_id).first()
+        if not result:
+            abort(404, message = f"Could not find user with {user_id}")
+        return result,200
+    
+    #This is used for adding a user
+    @marshal_with(_Resources.user_fields)
+    def put(self,user_id):
+        args = add_update_args.user(1).parse_args()
+
+        result = VideoModel.query.filter_by(id=user_id).first()
+        if result:
+            abort(409, message="video id taken...")
+
+        video = VideoModel(id=user_id,email=args['email'], password = args[''],likes = args['likes'])
+        db.session.add(video)
+        db.session.commit()
+        return video, 201
+
+    @marshal_with(_Resources.user_fields)
+    def patch(self,video_id):
+        args = add_update_args.user(2).parse_args()
+
+        result = VideoModel.query.filter_by(id=video_id).first()
+        if not result:
+            abort(404, message = "Video doesn't exist, cannot update")
+
+        if args['name']:
+            result.name = args['name']
+        if args['views']:
+            result.views = args['views']
+        if args['likes']:
+            result.likes = args['likes']
+
+        db.session.commit()
+        return result, 201
+
+    def delete(self,video_id):
+        result = VideoModel.query.filter_by(id=video_id).first()
+        if not result:
+            abort(404, message="Could not find video with that id")
+        db.session.delete(result)
+        db.session.commit()
+        return 'Deleted', 204
+
+
+class VideoById(Resource):
     @marshal_with(_Resources.resource_fields)
     def get(self,video_id):
         if(video_id):
             result = VideoModel.query.filter_by(id=video_id).first()
-            
         if not result:
-            abort(404, message="Could not find video with that id")
+            abort(404, message=f"Could not find video with {video_id}")
         return result, 200
-
+    
     @marshal_with(_Resources.resource_fields)
     def put(self,video_id):
         args = add_update_args.video(1).parse_args()
@@ -159,7 +207,7 @@ class GetById(Resource):
         db.session.commit()
         return 'Deleted', 204
 
-class GetAll(Resource):
+class GetAllVideos(Resource):
 
     @marshal_with(_Resources.resource_fields)
     def get(self):

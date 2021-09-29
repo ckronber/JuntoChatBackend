@@ -27,7 +27,7 @@ def home():
     return render_template('home.html', user=current_user)
 
 
-@views.route('/update-note<int:note_id>')
+@views.route('/update-note/<int:note_id>')
 @login_required
 def update_note():
     note = json.loads(request.data)

@@ -1,21 +1,42 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-    %}
-    <h1 align="center">Notes</h1>
-    <ul class="list-group list-group-flush" id="notes">
-      {% for note in user.notes %}
-      <li class="list-group-item">
-        {{ note.data }} 
-        <button type="button" class="close" onClick="deleteNote('{{note.id}}')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </li>
-      {% endfor %}
-    </ul>
+{% extends "base.html" %} {% block title %}Home{% endblock %} 
+
+{% block content%}
+<div class = "row">
+  <div class = "col-sm-8">
+    <h1 align="left">Junto Chat</h1>
+    <hr />
+    <p>Enter users below. Add a comma to seperate users</p>
+    <div class="input-group mb-3" id = "SendUsers">
+      <span class="input-group-text" id="basic-addon1">@</span>
+      <input type="text"  placeholder="Username"  aria-label="Username" aria-describedby="basic-addon1">
+      &emsp;
+      <button type = "button" class = "btn btn-info btn-sm">Add Users</button>
+    </div>
+    <br>
+    <div>
+      <ul class="list-group list-group-flush" id="notes">
+        {% for note in user.notes %}
+        <li class="list-group-item">
+          {{ note.data }}
+          <button type="button" class="close" onClick="deleteNote('{{note.id}}')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     <form method="POST">
-      <textarea name="note" id="note" class="form-control"></textarea>
+      <textarea name="note" id="note" class="form-control" placeholder = "Type your message here"></textarea>
       <br />
-      <div align="center">
-        <button type="submit" class="btn btn-primary">Add Note</button>
+      <div align="left">
+        <button type="submit" class="btn btn-primary">Send Message</button>
       </div>
     </form>
-    {% endblock %}
+  </div>
+
+  <div class = "col-sm-4">
+
+  </div>
+
+</div>
+{% endblock %}

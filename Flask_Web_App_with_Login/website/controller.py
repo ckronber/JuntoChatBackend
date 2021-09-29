@@ -6,7 +6,7 @@ from sqlalchemy_utils.functions import database_exists
 from flask_socketio import SocketIO,send,emit
 from main import app
 from . import db
-
+'''
 socket = SocketIO(app)
 api = Api(app)
 
@@ -119,3 +119,4 @@ class GetAll(Resource):
         db.session.commit()
 
         return video,201
+        '''
