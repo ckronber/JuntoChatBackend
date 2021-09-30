@@ -5,19 +5,30 @@
   <div class = "col-sm-8">
     <h1 align="left">Junto Chat</h1>
     <hr />
+    <br>
+    <h3> You are logged in as: {{current_user.first_name}}</h3>
+    <br>
+
     <p>Enter users below. Add a comma to seperate users</p>
+
     <div class="input-group mb-3" id = "SendUsers">
       <span class="input-group-text" id="basic-addon1">@</span>
       <input type="text"  placeholder="Username"  aria-label="Username" aria-describedby="basic-addon1">
       &emsp;
       <button type = "button" class = "btn btn-info btn-sm">Add Users</button>
     </div>
+
     <br>
-    <div>
+
+    <div id = "notes" height = "500px">
       <ul class="list-group list-group-flush" id="notes">
         {% for note in user.notes %}
         <li class="list-group-item">
-          {{ note.data }}
+          {%if current_user.first_name == note.user.first_name%}
+            {{"You: " + note.data}}
+          {%else%}
+            {{note.user.first_name + ": " + note.data}}
+          {%endif%}
           <button type="button" class="close" onClick="deleteNote('{{note.id}}')">
             <span aria-hidden="true">&times;</span>
           </button>

@@ -7,6 +7,7 @@ function deleteNote(noteId) {
     });
   }
 
+
 function showPass(){
   var x = document.getElementById("password");
 
@@ -31,14 +32,4 @@ function showPass2(){
   else{
     y.type = "password";
   }
-}
-
-function editMessage(){
-  var edited = prompt("Enter the edited message")
-  fetch("/update-note", {
-    method: "POST",
-    body: JSON.stringify({ noteId: noteId }),
-  }).then((_res) => {
-    window.location.href = "/";
-  });
 }

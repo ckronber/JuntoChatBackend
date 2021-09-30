@@ -1,5 +1,5 @@
-from website import create_app
 from flask_socketio import SocketIO
+from website import create_app
 
 HOST = "localhost"
 PORT = 3000
@@ -7,10 +7,9 @@ PORT = 3000
 PORTEXISTS=True
 
 app = create_app()
-socketio = SocketIO(app)
 
 if __name__ == "__main__":
     if(PORTEXISTS):
-        socketio.run(app,host=HOST,port = PORT,debug=True)
+        app.run(host=HOST,port = PORT,debug=True)
     else:
-        socketio.run(app,host=HOST,debug=True)
+        app.run(host=HOST,debug=True)
