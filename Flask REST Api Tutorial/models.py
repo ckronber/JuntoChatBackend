@@ -34,10 +34,10 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails
     password = db.Column(db.String(PASS_LENGTH))
-    first_name = db.Column(db.String(NAME_LENGTH))
+    user_name = db.Column(db.String(NAME_LENGTH),unique = True)
     notes = db.relationship('Note', backref='user',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
     channels = db.relationship('Channel', backref = 'user', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
-    
+    teams = db.relationship('Team', backref = 'user', cascade = "all,delete,delete-orphan", lazy = 'dynamic')
     def __repr__(self):
         return f"id: {self.id}: email: {self.first_name} user: {self.email}"
 
@@ -46,6 +46,7 @@ class Channel(db.Model):
     name = db.Column(db.String(NAME_LENGTH), unique = True)
     description = db.Column(db.String(NAME_LENGTH), unique = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    channel_users = db.relationship('ChannelUsers', backref = 'channel', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
 
     def __repr__(self):
         return f"id: {self.id}: Channel Name: {self.name} Channel Description: {self.description}"
@@ -54,6 +55,7 @@ class Team(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(NAME_LENGTH), unique = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    team_users = db.relationship('TeamUsers', backref = 'team', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
 
     def __repr__(self):
         return f"id: {self.id}: TeamName: {self.name}"
@@ -66,3 +68,13 @@ class VideoModel(db.Model):
 
     def __repr__(self):
         return f"Video(name={self.name}, views = {self.views}, likes = {self.likes}"
+
+class TeamUsers(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    user_name = db.Column(db.String(NAME_LENGTH), unique = True)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+
+class ChannelUsers(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    user_name = db.Column(db.String(NAME_LENGTH), unique = True)
+    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
