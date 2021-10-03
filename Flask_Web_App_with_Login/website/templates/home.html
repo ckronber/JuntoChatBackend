@@ -3,50 +3,67 @@
 {% block content%}
 <div class = "row">
   <div class = "col-sm-8">
-    <h1 align="left">Junto Chat</h1>
-    <hr />
     <br>
-    <h3> You are logged in as: {{current_user.first_name}}</h3>
+    <h4 align="left">Hello, {{current_user.first_name}}</h4>
     <br>
-
-    <p>Enter users below. Add a comma to seperate users</p>
+    <p class = "userMessage">Add Users to a message below, <br>
+      seperating them with a comma (,)</p>
 
     <div class="input-group mb-3" id = "SendUsers">
-      <span class="input-group-text" id="basic-addon1">@</span>
-      <input type="text"  placeholder="Username"  aria-label="Username" aria-describedby="basic-addon1">
-      &emsp;
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">@</span>
+      </div>
+      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      &nbsp;
       <button type = "button" class = "btn btn-info btn-sm">Add Users</button>
+    </div>
+    <div>
+
     </div>
 
     <br>
 
-    <div id = "notes" height = "500px">
+    <div class = "overflow-auto" id = "Mynotes" style = "height:25rem;">
       <ul class="list-group list-group-flush" id="notes">
         {% for note in user.notes %}
-        <li class="list-group-item">
+        <li class="list-group-item" id = "chatStuff">
           {%if current_user.first_name == note.user.first_name%}
             {{"You: " + note.data}}
           {%else%}
             {{note.user.first_name + ": " + note.data}}
           {%endif%}
-          <button type="button" class="close" onClick="deleteNote('{{note.id}}')">
+          &nbsp;
+          <button type="button" class="close" id="closeX" onClick="deleteNote('{{note.id}}')">
             <span aria-hidden="true">&times;</span>
           </button>
         </li>
         {% endfor %}
       </ul>
     </div>
+    <br>
     <form method="POST">
-      <textarea name="note" id="note" class="form-control" placeholder = "Type your message here"></textarea>
-      <br />
-      <div align="left">
-        <button type="submit" class="btn btn-primary">Send Message</button>
-      </div>
+      <textarea name="note" id="noteMSG" class="form-control" placeholder = "Type your message here"></textarea>
+      <button type="submit" id="submitMessage" class="btn btn-info">SEND</button>
     </form>
   </div>
 
   <div class = "col-sm-4">
-
+    <br>
+    <br>
+    <h5>Saved Users </h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
+    <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
+        <p>users listed here</p>
+    </div>
+    <br>
+    <h5>Direct Messages</h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
+    <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
+      <p>Direct Messages here</p>
+    </div>
+      <br>
+    <h5>Channels</h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
+    <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
+      <p>Channels listed here</p>
+    </div>
   </div>
 
 </div>

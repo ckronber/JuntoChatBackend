@@ -1,3 +1,4 @@
+
 function deleteNote(noteId) {
     fetch("/delete-note", {
       method: "POST",
@@ -31,5 +32,14 @@ function showPass2(){
   }
   else{
     y.type = "password";
+  }
+}
+
+function getMode(mode){
+  if (mode === "dark"){
+    document.body.style.backgroundColor = "darkgrey";
+  }
+  else{
+    document.body.style.backgroundColor = "white";
   }
 }

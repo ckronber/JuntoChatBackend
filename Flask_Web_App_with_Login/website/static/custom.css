@@ -1,0 +1,67 @@
+.navTextMain{
+   /* background-color: rgb(18, 107, 148);*/
+}
+
+.navTextMain, H1{
+    color: rgb(50, 172, 141);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#chatPage{
+   /* background-color: black;
+    color: white;*/
+}
+
+body{
+ background-color: #173e43;
+ color: rgb(50, 172, 141);
+}
+
+#darkMode{
+    background-color:darkgray;
+    color: white;
+    border-radius: .5rem;
+}
+
+#chatStuff{
+    width:fit-content;
+    background-color:transparent;
+    height: auto;   
+    text-align: left;
+    padding: .3rem;
+    margin-top: .3rem;
+    border:none;
+}
+
+#noteMSG{
+    width:20rem;
+}
+
+#submitMessage{
+    position:relative;
+    left:22rem;
+    bottom: 2.4rem;
+}
+
+#closeX{
+    color:red;
+    border:transparent;
+}
+
+#closeX:hover{
+    color:red;
+    border:transparent;
+
+}
+
+.UserList{
+    background-color:darkslategray;
+    margin-top: -1rem;
+    padding-top: .2rem;
+}
+
+#sideAdd{
+    position:relative;
+    left:10rem;
+    bottom: 2rem;
+}

@@ -2,13 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-from flask_socketio import SocketIO
 
 DB_NAME = "database.db"
 DB_PATH = "Flask_Web_App_with_Login\\website\\database.db"
 
 db = SQLAlchemy()
-socketio = SocketIO()
 
 def create_app():
     app = Flask(__name__)
@@ -17,7 +15,6 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
-    socketio.init_app(app)
 
     from .views import views
     from .auth import auth
