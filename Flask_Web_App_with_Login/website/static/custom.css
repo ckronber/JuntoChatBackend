@@ -1,15 +1,6 @@
-.navTextMain{
-   /* background-color: rgb(18, 107, 148);*/
-}
-
 .navTextMain, H1{
     color: rgb(50, 172, 141);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-#chatPage{
-   /* background-color: black;
-    color: white;*/
 }
 
 body{
@@ -39,7 +30,7 @@ body{
 
 #submitMessage{
     position:relative;
-    left:22rem;
+    left:21rem;
     bottom: 2.4rem;
 }
 

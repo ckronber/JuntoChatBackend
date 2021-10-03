@@ -1,13 +1,21 @@
-
 function deleteNote(noteId) {
-    fetch("/delete-note", {
-      method: "POST",
-      body: JSON.stringify({ noteId: noteId }),
-    }).then((_res) => {
-      window.location.href = "/";
-    });
-  }
+  fetch("/delete-note", {
+    method: "POST",
+    body: JSON.stringify({ noteId: noteId }),
+  }).then((_res) => {
+    window.location.href = "/";
+  });
+}
 
+function editNote(noteId,note_data) {
+  fetch("/edit-note", {
+    method: "POST",
+    body: JSON.stringify({ noteId: noteId }),
+    body: JSON.stringify({ note_data: note_data })
+  }).then((_res) => {
+    window.location.href = "/";
+  });
+}
 
 function showPass(){
   var x = document.getElementById("password");

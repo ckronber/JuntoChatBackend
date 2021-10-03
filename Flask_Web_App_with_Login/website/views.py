@@ -24,7 +24,6 @@ def home():
             new_note = Note(data=note, date = datetime.now(),user_id = current_user.id)
             db.session.add(new_note)
             db.session.commit()
-            #flash('Note added!',category='success')
 
     return render_template('home.html', user=current_user)
 
@@ -38,6 +37,21 @@ def deletenote():
     if note:
         if note.user_id == current_user.id:
             db.session.delete(note)
+            db.session.commit()
+    
+    return jsonify({})
+
+@views.route('/edit-note', methods=['POST'])
+@login_required
+def editnote():
+    note = json.loads(request.data)
+    noteId = note['noteId']
+    print(noteId)
+    note_data = note['note_data']
+    note = Note.query.get(noteId)
+    if note:
+        if note.user_id == current_user.id:
+            note['data'] = note_data
             db.session.commit()
     
     return jsonify({})

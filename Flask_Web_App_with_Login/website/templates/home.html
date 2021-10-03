@@ -32,8 +32,9 @@
           {%else%}
             {{note.user.first_name + ": " + note.data}}
           {%endif%}
+          <button type = "button" class = "edit" onclick = "editNote('{{note.id}}')">Edit</button>
           &nbsp;
-          <button type="button" class="close" id="closeX" onClick="deleteNote('{{note.id}}')">
+          <button type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
             <span aria-hidden="true">&times;</span>
           </button>
         </li>
@@ -52,17 +53,17 @@
     <br>
     <h5>Saved Users </h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
     <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
-        <p>users listed here</p>
+        <p>users listed <a href="http://www.socialsounddesign.com/users/">here</a> </p>
     </div>
     <br>
     <h5>Direct Messages</h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
     <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
-      <p>Direct Messages here</p>
+      <p>Direct Messages <a href="https://www.businessinsider.com/instagram-direct-messages-desktop-web-browser-rollout-how-to-use-2020-4">here</a></p>
     </div>
       <br>
     <h5>Channels</h5> <button type = "button" id = "sideAdd" class = "btn btn-info btn-sm">Add</button>
     <div class = "UserList rounded overflow-auto" style = "height:10rem;" >
-      <p>Channels listed here</p>
+      <p>Channels listed <a href="https://www.techradar.com/news/youtube-tv-channels-heres-every-available-channel-on-youtube-tv">here</a></p>
     </div>
   </div>
 

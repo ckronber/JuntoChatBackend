@@ -1,4 +1,4 @@
-from . import socketio
+from main import socketio
 from flask_socketio import send,emit
 
 @socketio.on('connect')
