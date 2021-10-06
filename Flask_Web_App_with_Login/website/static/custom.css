@@ -59,5 +59,11 @@ body{
 .edit{
     border:transparent;
     background-color:transparent;
-    color:goldenrod;
+}
+
+.edit:hover{
+    border:transparent;
+    background-color:transparent;
+    background-color:goldenrod;
+    border-radius: 20rem;
 }
