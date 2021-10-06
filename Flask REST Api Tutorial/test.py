@@ -31,19 +31,3 @@ from flask_restful import fields
 
 print(get_time(1))
 """
-
-
-resource_fields = {    'id': fields.Integer,
-                       'name': fields.String,
-                       'views': fields.Integer,
-                       'likes': fields.Integer,
-                       'data': fields.String,
-                       'date':fields.DateTime,
-                       'user_id':fields.Integer,
-                       'email':fields.String,
-                       'password':fields.String,
-                       'first_name':fields.String,
-                       'description':fields.String,
-                  }
-
-print(resource_fields['id'] == fields.Integer)

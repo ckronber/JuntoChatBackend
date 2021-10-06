@@ -42,7 +42,6 @@ body{
 #closeX:hover{
     color:red;
     border:transparent;
-
 }
 
 .UserList{
@@ -55,4 +54,10 @@ body{
     position:relative;
     left:10rem;
     bottom: 2rem;
+}
+
+.edit{
+    border:transparent;
+    background-color:transparent;
+    color:goldenrod;
 }

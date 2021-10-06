@@ -1,3 +1,4 @@
+
 function deleteNote(noteId) {
   fetch("/delete-note", {
     method: "POST",
@@ -7,11 +8,16 @@ function deleteNote(noteId) {
   });
 }
 
-function editNote(noteId,note_data) {
+function get_edited(){
+  userInput = prompt("Enter edited text");
+  return userInput;
+}
+
+function editNote(noteId){ 
+  n_data = get_edited();
   fetch("/edit-note", {
     method: "POST",
-    body: JSON.stringify({ noteId: noteId }),
-    body: JSON.stringify({ note_data: note_data })
+    body: JSON.stringify({ noteId: noteId, note_data: n_data}),
   }).then((_res) => {
     window.location.href = "/";
   });

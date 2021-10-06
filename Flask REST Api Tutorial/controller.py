@@ -1,9 +1,7 @@
 from datetime import datetime
-from flask import Flask,jsonify,request,render_template
+#from flask import Flask,jsonify,request,render_template
 from flask_restful import Api, Resource,reqparse,abort,fields,marshal_with
-from flask_sqlalchemy import SQLAlchemy
-#import socketio
-#from flask_socketio import SocketIO,send,emit
+#from flask_sqlalchemy import SQLAlchemy
 from models import db,VideoModel,Note,User,Channel,Team
 
 class Resources():
@@ -233,7 +231,9 @@ class NoteById(Resource):
         if not result:
             abort(404, message = f"Could not find user with {note_id}")
         return result,200
+
     
+        
     #This is used for adding a user
     @marshal_with(Resources.note_fields)
     def put(self,note_id):

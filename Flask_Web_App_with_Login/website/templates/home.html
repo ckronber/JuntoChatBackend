@@ -7,7 +7,7 @@
     <h4 align="left">Hello, {{current_user.first_name}}</h4>
     <br>
     <p class = "userMessage">Add Users to a message below, <br>
-      seperating them with a comma (,)</p>
+      seperating them with a comma (<b> , </b>)</p>
 
     <div class="input-group mb-3" id = "SendUsers">
       <div class="input-group-prepend">
@@ -32,7 +32,9 @@
           {%else%}
             {{note.user.first_name + ": " + note.data}}
           {%endif%}
-          <button type = "button" class = "edit" onclick = "editNote('{{note.id}}')">Edit</button>
+          <button type = "button" class = "edit" onclick = "editNote('{{note.id}}')">
+           <span aria-hidden = "true"><img src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
+          </button> |
           &nbsp;
           <button type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
             <span aria-hidden="true">&times;</span>

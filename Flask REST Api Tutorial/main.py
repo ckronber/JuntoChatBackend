@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO,send,emit
 from controller import db,GetAllVideos,VideoById,UserById,GetAllUsers,TeamById,GetAllTeams,ChannelById,GetAllChannels,NoteById,GetAllNotes
 from os import path
+from chatServer import socketio
 
 DATABASE_NAME = "ChatDatabase.db"
 
@@ -13,11 +14,10 @@ app.config['SECRET_KEY'] = 'BestEverPassword'
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DATABASE_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+socketio.init_app(app)
 
 if not(path.exists(DATABASE_NAME)):
     db.create_all(app = app)
-
-#socketio = SocketIO(app)
 
 api.add_resource(GetAllVideos,"/video")
 api.add_resource(VideoById,"/video/<int:video_id>")
@@ -32,5 +32,5 @@ api.add_resource(GetAllTeams,"/team")
 
 
 if __name__ == "__main__":
-    #socketio.run(app,host='localhost',port = 3000,debug=True)
-    app.run(host='localhost',port = 3000,debug=True)
+    socketio.run(app,host='127.0.0.1',port = 3000,debug=True)
+    #app.run(host='localhost',port = 3000,debug=True)

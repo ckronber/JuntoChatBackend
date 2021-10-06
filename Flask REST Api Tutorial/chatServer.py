@@ -1,4 +1,4 @@
-from flask_socketio import SocketIO,send,emit,join_room,leave_room
+from flask_socketio import send,emit,join_room,leave_room,SocketIO
 
 socketio = SocketIO()
 

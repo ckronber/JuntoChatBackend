@@ -28,7 +28,7 @@ def home():
     return render_template('home.html', user=current_user)
 
 
-@views.route('/delete-note',methods=['POST'])
+@views.route('/delete-note', methods=['POST'])
 @login_required
 def deletenote():
     note = json.loads(request.data)
@@ -41,17 +41,17 @@ def deletenote():
     
     return jsonify({})
 
-@views.route('/edit-note', methods=['POST'])
+@views.route('/edit-note', methods=['POST','GET'])
 @login_required
-def editnote():
+def editNote():
     note = json.loads(request.data)
     noteId = note['noteId']
-    print(noteId)
     note_data = note['note_data']
     note = Note.query.get(noteId)
     if note:
         if note.user_id == current_user.id:
-            note['data'] = note_data
+            if note_data:
+                note.data = note_data
             db.session.commit()
     
     return jsonify({})
