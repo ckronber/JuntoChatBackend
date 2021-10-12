@@ -67,3 +67,7 @@ body{
     background-color:goldenrod;
     border-radius: 20rem;
 }
+
+#others{
+    align-content:right;
+}

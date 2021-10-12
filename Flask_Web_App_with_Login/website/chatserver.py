@@ -1,18 +1,26 @@
 from flask_socketio import SocketIO,send,emit,join_room,leave_room
+from flask import request
+from flask_login import current_user
 
 socketio = SocketIO()
 
 @socketio.on('connect')
-def test_connect(auth):
-    emit('my response', {'data': 'Connected'})
+def connect_handler():
+    if current_user.is_authenticated:
+        print(f"{current_user.first_name} Connected")
+        emit('my response',
+             {'message': f"Welcome to chat {current_user.first_name}"})
+    else:
+        return False  # not allowed here
 
 @socketio.on('disconnect')
 def test_disconnect():
-    print('Client disconnected')
+    print(f'{current_user.first_name} disconnected')
 
 @socketio.on('message')
 def handle_message(message):
     send(message)
+    print(f'received message: {message}')
 
 @socketio.on('json')
 def handle_json(json):
@@ -35,3 +43,12 @@ def on_leave(data):
     room = data['room']
     leave_room(room)
     send(username + ' has left the room.', to=room)
+
+@socketio.on("my error event")
+def on_my_event(data):
+    raise RuntimeError()
+
+@socketio.on_error_default
+def default_error_handler(e):
+    print(request.event["message"]) # "my error event"
+    print(request.event["args"])    # (data,)

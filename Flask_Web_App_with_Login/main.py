@@ -1,6 +1,4 @@
-from flask_socketio import SocketIO
 from website import create_app
-from flask_socketio import SocketIO
 from website.chatserver import socketio
 
 HOST = "localhost"

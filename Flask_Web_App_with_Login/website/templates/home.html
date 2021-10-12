@@ -13,12 +13,15 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">@</span>
       </div>
-      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input name = "userInput" id = "usersADD" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
       &nbsp;
       <button type = "button" class = "btn btn-info btn-sm">Add Users</button>
     </div>
-    <div>
-
+    
+    <div id = "userArea">
+      <script>
+        message = $("userInput").value;
+      </script>
     </div>
 
     <br>
@@ -29,17 +32,16 @@
         <li class="list-group-item" id = "chatStuff">
           {%if current_user.first_name == note.user.first_name%}
             {{"You: " + note.data}}
-          {%else%}
+            <button type = "button" class = "edit" onclick = "editNote('{{note.id}}')">
+              <span aria-hidden = "true"><img src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
+             </button> |
+             &nbsp;
+             <button type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
+               <span aria-hidden="true">&times;</span>
+             </button>
+          {%else%} 
             {{note.user.first_name + ": " + note.data}}
           {%endif%}
-          <button type = "button" class = "edit" onclick = "editNote('{{note.id}}')">
-            <!--<span aria-hidden = "true" style="font-family:Wingdings;">?</span>-->
-           <span aria-hidden = "true"><img src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
-          </button> |
-          &nbsp;
-          <button type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </li>
         {% endfor %}
       </ul>
@@ -47,7 +49,7 @@
     <br>
     <form method="POST">
       <textarea name="note" id="noteMSG" class="form-control" placeholder = "Type your message here"></textarea>
-      <button type="submit" id="submitMessage" class="btn btn-info">SEND</button>
+      <button type="submit" id="submitMessage" class="btn btn-info" onclick = "sendMsg()">SEND</button>
     </form>
   </div>
 
