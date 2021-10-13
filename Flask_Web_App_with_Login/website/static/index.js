@@ -12,14 +12,17 @@ socket.on("disconnect", () => {
 
 function addUser(){
   var uIn = document.getElementById("usersADD").value;
-  var len = document.getElementById("listItem").innerHTML;
+  //var len = document.getElementById("listItem").innerHTML;
+  var len = document.getElementById("noteMSG").placeholder;
 
-  console.log(len.length);
   if(uIn && len){
-    document.getElementById("listItem").innerHTML += ", " + uIn;
+    //document.getElementById("listItem").innerHTML += ", " + uIn;
+    document.getElementById("noteMSG").placeholder += ", " + uIn;
   }
   else if(uIn){
-    document.getElementById("listItem").innerHTML += uIn;
+    document.getElementById("noteMSG").placeholder = "Message: ";
+    //document.getElementById("listItem").innerHTML += uIn;
+    document.getElementById("noteMSG").placeholder += uIn;
   }
 }
 
@@ -31,17 +34,6 @@ function deleteNote(noteId) {
     window.location.href = "/";
   });
 }
-
-// using enter with messages as well as clicking submit
-/*
-input.addEventListener("keyup", function(event) {
-    var input = document.getElementById("noteMSG").value;
-    console.log(input);
-    if (event.key === "Enter" && input){
-        event.preventDefault();
-        submit.click();
-    }
-}); */
 
 function editNote(noteId){ 
   n_data = prompt("Enter edited text");
@@ -87,3 +79,14 @@ function getMode(mode){
     document.body.style.backgroundColor = "white";
   }
 }
+
+// using enter with messages as well as clicking submit
+/*
+input.addEventListener("keyup", function(event) {
+    var input = document.getElementById("noteMSG").value;
+    console.log(input);
+    if (event.key === "Enter" && input){
+        event.preventDefault();
+        submit.click();
+    }
+}); */
