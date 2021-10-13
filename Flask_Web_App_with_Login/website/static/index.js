@@ -1,6 +1,5 @@
-const socket = io("http://");
-var input = document.getElementById("noteMSG");
-var submit = document.getElementById("submitMessage")
+const socket = io();
+var submit = document.getElementById("submitMessage");
 
 socket.on('connect', function() {
     socket.emit('my event', {data: 'I\'m connected!'});
@@ -11,18 +10,18 @@ socket.on("disconnect", () => {
   console.log(socket.id); // undefined
 });
 
-function sendMsg(messageText){
-  console.log(messageText);
-  return socket.emit("message", messageText);
-}
+function addUser(){
+  var uIn = document.getElementById("usersADD").value;
+  var len = document.getElementById("listItem").innerHTML;
 
-/*
-function sendMessage(message){
-  var msgTxt = document.createElement("li");
-  msgTxt.innerText = message;
-  document.body.appendChild(msgTxt);
+  console.log(len.length);
+  if(uIn && len){
+    document.getElementById("listItem").innerHTML += ", " + uIn;
+  }
+  else if(uIn){
+    document.getElementById("listItem").innerHTML += uIn;
+  }
 }
-*/
 
 function deleteNote(noteId) {
   fetch("/delete-note", {
@@ -34,12 +33,15 @@ function deleteNote(noteId) {
 }
 
 // using enter with messages as well as clicking submit
+/*
 input.addEventListener("keyup", function(event) {
-    if (event.key === "Enter" && input) {
+    var input = document.getElementById("noteMSG").value;
+    console.log(input);
+    if (event.key === "Enter" && input){
         event.preventDefault();
         submit.click();
     }
-});
+}); */
 
 function editNote(noteId){ 
   n_data = prompt("Enter edited text");

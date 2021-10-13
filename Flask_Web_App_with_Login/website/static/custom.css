@@ -15,7 +15,8 @@ body{
 }
 
 #chatStuff{
-    width:fit-content;
+  /*  width:fit-content;*/
+    width:max-content;
     background-color:transparent;
     height: auto;   
     text-align: left;
@@ -29,9 +30,11 @@ body{
 }
 
 #submitMessage{
+    /*
     position:relative;
     left:21rem;
-    bottom: 2.4rem;
+    bottom: 3.8rem;
+    */
 }
 
 #closeX{

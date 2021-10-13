@@ -2,7 +2,7 @@
 
 {% block content%}
 <div class = "row">
-  <div class = "col-sm-8">
+  <div class = "col-sm-8" width = "fixed" padding-right = "200rem">
     <br>
     <h4 align="left">Hello, {{current_user.first_name}}</h4>
     <br>
@@ -13,15 +13,15 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">@</span>
       </div>
-      <input name = "userInput" id = "usersADD" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input type = "text" name = "userInput" id = "usersADD" autocomplete="true" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
       &nbsp;
-      <button type = "button" class = "btn btn-info btn-sm">Add Users</button>
+      <button type = "button" id = "addIT" class = "btn btn-sm" onclick = "addUser()">
+        <span><img src="../static/images/addPerson.png" width = "25rem" height = "30rem" ></span>
+      </button>
     </div>
     
     <div id = "userArea">
-      <script>
-        message = $("userInput").value;
-      </script>
+      <ul id = "listItem" class = "list-group-flush" style="list-style: none;"></ul>
     </div>
 
     <br>
@@ -47,10 +47,14 @@
       </ul>
     </div>
     <br>
-    <form method="POST">
-      <textarea name="note" id="noteMSG" class="form-control" placeholder = "Type your message here"></textarea>
-      <button type="submit" id="submitMessage" class="btn btn-info" onclick = "sendMsg()">SEND</button>
-    </form>
+      <div>
+      <form method="POST" class="input-group mb-3">
+        <textarea name="note" id="noteMSG" class="form-control" placeholder = "Type your message here"></textarea>
+        <button type="submit" id="submitMessage" class="btn">
+          <span><img src="../static/images/send1.png" width = "50rem" height = "50rem" ></span>
+        </button>
+      </form>
+      </div>
   </div>
 
   <div class = "col-sm-4">

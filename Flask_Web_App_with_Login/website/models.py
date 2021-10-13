@@ -13,6 +13,7 @@ class Note(db.Model):
     data = db.Column(db.String(DATA_LENGTH))
     date = db.Column(db.DateTime(timezone = True),default=func.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_list = db.relationship('NoteUsers', backref='note',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
 
     def __repr__(self):
         return f"id: {self.id}: date: {self.date} user: {self.user_id}"
@@ -28,6 +29,10 @@ class Note(db.Model):
         if(time_format == 3):
             return f"{time_stamp['month']}/{time_stamp['day']}/{time_stamp['year']}"
 
+class NoteUsers(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    user_name = db.Column(db.String(NAME_LENGTH), unique=True)
+    user_id = db.Column(db.Integer,db.ForeignKey("note.id"))
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
