@@ -17,12 +17,9 @@ thread_lock = Lock()
 
 def background_thread():
     """Example of how to send server generated events to clients."""
-    count = 0
     while True:
         socketio.sleep(10)
-        count += 1
-        emit('my_response',
-                      {'data': 'Server generated event', 'count': count})
+        emit('my_response', {'data': 'Server generated event'})
 
 """
 @views.route('/',methods=['GET', 'POST'])
@@ -47,15 +44,15 @@ def home():
 
 @socketio.event
 def my_event(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
     emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']})
+         {'data': message['data']})
 
 @socketio.event
 def my_broadcast_event(message):
-    session['receive_count'] = session.get('receive_count', 0) + 1
+    #session['receive_count'] = session.get('receive_count', 0) + 1
+    #, 'count': session['receive_count']
     emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']},
+         {'data': current_user.first_name+ ": " + message['data']},
          broadcast=True)
 
 @socketio.event
@@ -65,7 +62,6 @@ def join(message):
     emit('my_response',
          {'data': 'In rooms: ' + ', '.join(rooms()),
           'count': session['receive_count']})
-    return render_template(url_for(home))
 
 @socketio.event
 def leave(message):

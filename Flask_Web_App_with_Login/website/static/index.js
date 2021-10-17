@@ -19,7 +19,7 @@ $(document).ready(function() {
   // to the client. The data is then displayed in the "Received"
   // section of the page.
   socket.on('my_response', function(msg, cb) {
-    $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+    $('#log').append('<br>' + $('<div/>').text(msg.data).html());
     if (cb)
         cb();
   });

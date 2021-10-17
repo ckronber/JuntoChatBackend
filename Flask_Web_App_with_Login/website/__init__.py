@@ -23,7 +23,6 @@ def create_app():
 
     if not path.isfile(DB_PATH + DB_NAME):
         db.create_all(app = app)
-        #print('Created Database!')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
