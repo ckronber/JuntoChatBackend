@@ -1,16 +1,12 @@
 from website import create_app
-from website.chatserver import socketio
+from website.views import socketio
 
-HOST = "localhost"
+HOST = "127.0.0.1"
 PORT = 3000
-
-PORTEXISTS=True
 
 app = create_app()
 socketio.init_app(app)
+#client = socketio.test_client(app)
 
 if __name__ == "__main__":
-    if(PORTEXISTS):
-        socketio.run(app,host=HOST,port = PORT,debug=True)
-    else:
-        socketio.run(app,host=HOST,debug=True)
+    socketio.run(app,host=HOST,port = PORT,debug=True)

@@ -29,24 +29,6 @@ body{
     width:20rem;
 }
 
-#submitMessage{
-    /*
-    position:relative;
-    left:21rem;
-    bottom: 3.8rem;
-    */
-}
-
-#closeX{
-    color:red;
-    border:transparent;
-}
-
-#closeX:hover{
-    color:red;
-    border:transparent;
-}
-
 .UserList{
     background-color:darkslategray;
     margin-top: -1rem;
@@ -59,6 +41,11 @@ body{
     bottom: 2rem;
 }
 
+#others{
+    align-content:right;
+}
+
+/* close and edit buttons here*/
 .edit{
     border:transparent;
     background-color:transparent;
@@ -68,9 +55,26 @@ body{
     border:transparent;
     background-color:transparent;
     background-color:goldenrod;
-    border-radius: 20rem;
+    border-radius: 5rem;
 }
 
-#others{
-    align-content:right;
+#closeX{
+    color:red;
+    border:transparent;
+    max-width: auto;
+    height:auto;
+    display: inline-block;
 }
+
+#closeX:hover{
+    color:red;
+    border:transparent;
+}
+
+#editB{
+    max-width: auto;
+    height:auto;
+    display: inline-block;
+ }
+ 
+ /* users added here */

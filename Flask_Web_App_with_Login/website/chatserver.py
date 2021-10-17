@@ -1,9 +1,14 @@
-from flask_socketio import SocketIO,send,emit,join_room,leave_room
+from flask_socketio import SocketIO,send,emit,join_room,leave_room,close_room,rooms,disconnect
 from flask import request
-from flask_login import current_user
+from flask_login import current_user,login_required
+from threading import Lock
+from flask import copy_current_request_context,session
 
-socketio = SocketIO()
+#async_mode= None
 
+#socketio = SocketIO(async_mode = async_mode)
+
+"""
 @socketio.on('connect')
 def connect_handler():
     if current_user.is_authenticated:
@@ -15,7 +20,9 @@ def connect_handler():
 
 @socketio.on('disconnect')
 def test_disconnect():
-    print(f'{current_user.first_name} disconnected')
+    emit('my response',
+             {'message': f"{current_user.first_name} disconnected"})
+    print(f"{current_user.first_name} Disconnected")
 
 @socketio.on('message')
 def handle_message(message):
@@ -52,3 +59,5 @@ def on_my_event(data):
 def default_error_handler(e):
     print(request.event["message"]) # "my error event"
     print(request.event["args"])    # (data,)
+
+"""

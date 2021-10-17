@@ -14,6 +14,7 @@ class Note(db.Model):
     date = db.Column(db.DateTime(timezone = True),default=func.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_list = db.relationship('NoteUsers', backref='note',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
+    #users = db.relationship('User', backref='note',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
 
     def __repr__(self):
         return f"id: {self.id}: date: {self.date} user: {self.user_id}"
@@ -36,6 +37,7 @@ class NoteUsers(db.Model):
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
+    #note_id = db.Column(db.Integer,db.ForeignKey("note.id"))
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails
     password = db.Column(db.String(PASS_LENGTH))
     first_name = db.Column(db.String(NAME_LENGTH))
