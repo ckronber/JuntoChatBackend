@@ -1,7 +1,6 @@
-//var submit = document.getElementById("submitMessage").value;
-//var form = document.getElementById("listItem");
-//var input = document.getElementById("noteMSG");
-
+var submit = document.getElementById("submitMessage").value;
+var form = document.getElementById("listItem");
+var input = document.getElementById("noteMSG");
 
 $(document).ready(function() {
   const socket = io();
@@ -18,10 +17,8 @@ $(document).ready(function() {
   // The callback function is invoked whenever the server emits data
   // to the client. The data is then displayed in the "Received"
   // section of the page.
-  socket.on('my_response', function(msg, cb) {
+  socket.on('my_response', function(msg) {
     $('#log').append('<br>' + $('<div/>').text(msg.data).html());
-    if (cb)
-        cb();
   });
   // Interval function that tests message latency by sending a "ping"
   // message. The server then responds with a "pong" message and the
@@ -56,6 +53,7 @@ $(document).ready(function() {
   });
   $('form#broadcast').submit(function(event) {
       socket.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+      clearTextArea("broadcast_data");
       return false;
   });
   $('form#join').submit(function(event) {
@@ -80,23 +78,30 @@ $(document).ready(function() {
   });
 });
 
-
 function addUser(){
   var uIn = document.getElementById("usersADD").value;
   //var len = document.getElementById("listItem").innerHTML;
-  var len = document.getElementById("noteMSG").placeholder;
+  var len = document.getElementById("broadcast_data").placeholder;
+  console.log(len);
 
   if(uIn && len){
     //document.getElementById("listItem").innerHTML += ", " + uIn;
-    document.getElementById("noteMSG").placeholder += ", " + uIn;
+    document.getElementById("broadcast_data").placeholder += ", " + uIn;
   }
   else if(uIn){
-    document.getElementById("noteMSG").placeholder = "Message: ";
+    document.getElementById("broadcast_data").placeholder = "Message: ";
     //document.getElementById("listItem").innerHTML += uIn;
-    document.getElementById("noteMSG").placeholder += uIn;
+    document.getElementById("broadcast_data").placeholder += uIn;
   }
+  clearTextArea("usersADD");
 }
 
+function clearTextArea(broadcast){
+  var messageData = document.getElementById(broadcast).value;
+  console.log(messageData);
+  messageData = "";
+  document.getElementById(broadcast).value = messageData;
+}
 function deleteNote(noteId) {
   fetch("/delete-note", {
     method: "POST",

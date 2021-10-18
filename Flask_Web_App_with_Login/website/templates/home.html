@@ -15,20 +15,17 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">@</span>
       </div>
-      <input type = "text" name = "userInput" id = "usersADD" autocomplete="true" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input type = "text" name = "userInput" id = "usersADD" autocomplete="true" class="form-control" placeholder="Usernames" aria-label="Username" aria-describedby="basic-addon1">
       &nbsp;
       <div type = "button" id = "addIT" class = "btn btn-sm" onclick = "addUser()">
         <span><img src="../static/images/addPerson.png" width = "25rem" height = "30rem" ></span>
       </div>
     </div>
-    
-    <div id = "userArea">
-      <ul id = "listItem" class = "list-group-flush" style="list-style: none;"></ul>
-    </div>
-  
+
     <br>
 
-    <div class = "overflow-auto" id = "Mynotes" style = "height:25rem;">
+    <div class = "overflow-auto" id = "log" style = "height:30rem;">
+      <!--
       <ul class="list-group list-group-flush" id="notes">
         {% for note in user.notes%}
         <li class="list-group-item" id = "chatStuff">
@@ -46,23 +43,22 @@
           {%endif%}
         </li>
         {% endfor %}
-      </ul>
+      </ul>-->
     </div>
 
     <br>
 
       <div>
-      <form name = "messForm" id = "messageForm" method="POST" class="input-group mb-3" action = "#">
-        <textarea name="note" id="noteMSG" class="form-control"></textarea>
-        <div type="button" id="submitMessage" onclick = "document.forms['messForm'].submit();" class="btn">
-          <span><img src="../static/images/send1.png" width = "50rem" height = "50rem" ></span>
+      <form name = "messForm" id = "broadcast" method="POST"  class="input-group mb-3" action = "#">
+        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+        <div id = "submitBlock">
+          <input type="submit" value = "" id = submitMessage>
         </div>
       </form>
       </div>
       
     <br>
     <br>
-
     <div>
       <p>
         Async mode is: <b>{{ async_mode }}</b><br>
@@ -72,7 +68,7 @@
       <h2>Send:</h2>
       <form id="emit" method="POST" action='#'>
           <input type="text" name="emit_data" id="emit_data" placeholder="Message">
-          <input type="submit" value="Echo">
+          <input type="submit"  value = "" id = Sendy>
       </form>
       <form id="broadcast" method="POST" action='#'>
           <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">

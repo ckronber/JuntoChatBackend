@@ -52,7 +52,7 @@ def my_broadcast_event(message):
     #session['receive_count'] = session.get('receive_count', 0) + 1
     #, 'count': session['receive_count']
     emit('my_response',
-         {'data': current_user.first_name+ ": " + message['data']},
+         {'data': f"{current_user.first_name} : " + message['data']},
          broadcast=True)
 
 @socketio.event
@@ -110,7 +110,7 @@ def connect():
     with thread_lock:
         if thread is None:
             thread = socketio.start_background_task(background_thread)
-    emit('my_response', {'data': 'Connected', 'count': 0})
+    emit('my_response', {'data': 'Connected'})
     print(f"{current_user.first_name} connected")
     
 
