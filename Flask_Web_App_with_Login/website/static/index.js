@@ -10,7 +10,8 @@ $(document).ready(function() {
   });
 
   socket.on('connect', function() {
-    socket.emit('my_event', {data: 'I\'m connected!'});
+    //socket.emit('my_event', {data: 'I\'m connected!'});
+    console.log("connected!")
   });
 
   // Event handler for server sent data.
@@ -102,6 +103,7 @@ function clearTextArea(broadcast){
   messageData = "";
   document.getElementById(broadcast).value = messageData;
 }
+
 function deleteNote(noteId) {
   fetch("/delete-note", {
     method: "POST",
