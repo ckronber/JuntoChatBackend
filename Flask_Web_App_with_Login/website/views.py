@@ -1,4 +1,4 @@
-from flask import Blueprint, config,request,flash,jsonify,copy_current_request_context,session,render_template
+from flask import Blueprint,config,request,flash,jsonify,copy_current_request_context,session,render_template
 from flask_socketio import SocketIO,send,emit,join_room,leave_room,close_room,rooms,disconnect
 from flask.helpers import url_for
 from flask_login import login_required,current_user
@@ -7,20 +7,22 @@ from . import db
 from threading import Lock
 from datetime import datetime
 import json
-from engineio.payload import Payload
 
 views = Blueprint('views', __name__)
-async_mode = 'gevent'
-Payload.max_decode_packets = 500
 
-socketio = SocketIO(async_mode = async_mode,ping_timeout=3,ping_interval=1)
+async_type = None
+
+sio = SocketIO(async_type = async_type)
+#,ping_timeout=3,ping_interval=1
 thread = None
 thread_lock = Lock()
 
+
 def background_thread():
     """Example of how to send server generated events to clients."""
+    print("background Thread")
     #while True:
-    #    socketio.sleep(10)
+    #    sio.sleep(10)
     #    emit('my_response', {'data': 'Server generated event'})
 
 """
@@ -36,50 +38,70 @@ def home():
             db.session.add(new_note)
             db.session.commit()
 
-        return render_template('home.html', user=current_user, async_mode = socketio.async_mode)
+        return render_template('home.html', user=current_user, async_mode = sio.async_mode)
 """
 
 @views.route('/') #,methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('home.html', user=current_user,async_mode = socketio.async_mode)
+    return render_template('home.html', user=current_user,async_mode = sio.async_mode)
 
-@socketio.event
+@sio.event
 def my_event(message):
-    emit('my_response',
-         {'data': message['data']})
+    emit('my_response',{'data': message['data']})
 
-@socketio.event
+@sio.event
 def my_broadcast_event(message):
-    emit('my_response',
-         {'data': f"{current_user.first_name} : " + message['data']},
-         broadcast=True)
+    #if(message['data']):
+        #session['receive_count'] = session.get('receive_count', 0) + 1
+    new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
+    db.session.add(new_note)
+    db.session.commit()
+    emit('my_response',{'user_name': f"{current_user.first_name}",'data':  f"{new_note.data}"},broadcast=True)
 
-@socketio.event
+@sio.event
+def edit_event(message):
+    if(message['data']):
+        pass
+        #session['receive_count'] = session.get('receive_count', 0) + 1
+        #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
+
+@sio.event
+def delete_event(message):
+    if(message['data']):
+        pass
+        #session['receive_count'] = session.get('receive_count', 0) + 1
+        #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
+    
+@sio.event
+def load_all_messages():
+    results = Note.query.all()
+    return results
+
+@sio.event
 def join(message):
     join_room(message['room'])
-    emit('my_response',
-         {'data': 'In rooms: ' + ', '.join(rooms())})
+    emit('my_response', {'data': 'In rooms: ' + ', '.join(rooms())})
 
-@socketio.event
+@sio.event
 def leave(message):
     leave_room(message['room'])
     emit('my_response',
          {'data': 'In rooms: ' + ', '.join(rooms())})
 
-@socketio.on('close_room')
+@sio.on('close_room')
 def on_close_room(message):
     emit('my_response', {'data': 'Room ' + message['room'] + ' is closing.'},
          to=message['room'])
     close_room(message['room'])
 
-@socketio.event
+@sio.event
 def my_room_event(message):
     emit('my_response',
          {'data': message['data']},
          to=message['room'])
 
-@socketio.event
+@sio.event
 def disconnect_request():
     @copy_current_request_context
     def can_disconnect():
@@ -92,20 +114,21 @@ def disconnect_request():
          {'data': 'Disconnected!'},
          callback=can_disconnect)
 
-@socketio.event
+
+@sio.event
 def my_ping():
     emit('my_pong')
 
-@socketio.event
+@sio.event
 def connect():
     global thread
     with thread_lock:
         if thread is None:
-            thread = socketio.start_background_task(background_thread)
+            thread = sio.start_background_task(background_thread)
     #emit('my_response', {'data': 'Connected'})
     print(f"{current_user.first_name} connected")
     
-@socketio.on('disconnect')
+@sio.on('disconnect')
 def test_disconnect():
     print('Client disconnected', request.sid)
 

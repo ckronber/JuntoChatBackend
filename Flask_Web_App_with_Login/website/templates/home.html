@@ -24,9 +24,9 @@
 
     <br>
 
-    <div class = "overflow-auto" id = "log" style = "height:30rem;">
-      <!--
-      <ul class="list-group list-group-flush" id="notes">
+    <div class = "overflow-auto"  id = "log" style = "height:30rem;">
+       <!--<ul class="list-group list-group-flush"  id="notes">
+       
         {% for note in user.notes%}
         <li class="list-group-item" id = "chatStuff">
           {%if current_user.first_name == note.user.first_name%}
@@ -43,14 +43,15 @@
           {%endif%}
         </li>
         {% endfor %}
+        
       </ul>-->
     </div>
 
     <br>
 
       <div>
-      <form name = "messForm" id = "broadcast" method="POST"  class="input-group mb-3" action = "#">
-        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control"></textarea>
+      <form name = "messForm" id = "broadcast" method="POST"  class="input-group mb-3" action = "/">
+        <textarea type="text" name="broadcast_data" id="broadcast_data" class="form-control" required></textarea>
         <div id = "submitBlock">
           <input type="submit" value = "" id = submitMessage>
         </div>
@@ -65,6 +66,8 @@
         Current transport is: <b><span id="transport"></span></b><br>
         Average ping/pong latency: <b><span id="ping-pong"></span>ms</b>
       </p>
+
+      <!--
       <h2>Send:</h2>
       <form id="emit" method="POST" action='#'>
           <input type="text" name="emit_data" id="emit_data" placeholder="Message">
@@ -74,6 +77,7 @@
           <input type="text" name="broadcast_data" id="broadcast_data" placeholder="Message">
           <input type="submit" value="Broadcast">
       </form>
+      
       <form id="join" method="POST" action='#'>
           <input type="text" name="join_room" id="join_room" placeholder="Room Name">
           <input type="submit" value="Join Room">
@@ -95,7 +99,7 @@
           <input type="submit" value="Disconnect">
       </form>
       <h2>Receive:</h2>
-      <div id="log"></div>
+      <div id="log"></div>-->
     </div>
   </div>
 

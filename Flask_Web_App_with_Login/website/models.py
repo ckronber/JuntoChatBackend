@@ -12,9 +12,9 @@ class Note(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     data = db.Column(db.String(DATA_LENGTH))
     date = db.Column(db.DateTime(timezone = True),default=func.now)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_list = db.relationship('NoteUsers', backref='note',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
-    #users = db.relationship('User', backref='note',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
+    user_list = db.relationship('Noteusers', backref='note',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
+    #users = db.relationship('User',backref='note')
 
     def __repr__(self):
         return f"id: {self.id}: date: {self.date} user: {self.user_id}"
@@ -30,7 +30,7 @@ class Note(db.Model):
         if(time_format == 3):
             return f"{time_stamp['month']}/{time_stamp['day']}/{time_stamp['year']}"
 
-class NoteUsers(db.Model):
+class Noteusers(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     user_name = db.Column(db.String(NAME_LENGTH), unique=True)
     user_id = db.Column(db.Integer,db.ForeignKey("note.id"))
@@ -38,10 +38,12 @@ class NoteUsers(db.Model):
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
     #note_id = db.Column(db.Integer,db.ForeignKey("note.id"))
+    noteuser_id = db.Column(db.Integer,db.ForeignKey("noteusers.id"))
     email = db.Column(db.String(EMAIL_LENGTH), unique = True) # max length, unique means only unique emails
     password = db.Column(db.String(PASS_LENGTH))
     first_name = db.Column(db.String(NAME_LENGTH))
-    notes = db.relationship('Note', backref='user',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
+    notes = db.relationship('Note',backref = 'user',cascade = "all, delete, delete-orphan", lazy = 'dynamic')
+    #noteUsers = db.relationship('Note', backref='user',cascade = "all, delete, delete-orphan",lazy = 'dynamic')
     channels = db.relationship('Channel', backref = 'user', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
     teams = db.relationship('Team', backref = 'user', cascade = "all, delete, delete-orphan", lazy = 'dynamic')
     
@@ -67,7 +69,6 @@ class Team(db.Model):
 
     def __repr__(self):
         return f"id: {self.id}: TeamName: {self.name}"
-
 
 class TeamUsers(db.Model):
     id = db.Column(db.Integer,primary_key=True)
