@@ -1,10 +1,14 @@
 var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
+var username;
+const sio = io();
+
+function getCurrentUser(){
+  sio.emit("getUser");
+}
 
 $(document).ready(function() {
-  const sio = io();
-  
   sio.on("disconnect", () => {
     console.log("user disconnected");
   });
@@ -14,14 +18,30 @@ $(document).ready(function() {
     console.log("connected!")
   });
 
+  getCurrentUser();
+
+  sio.on('c_user', function(msg) {
+    username = msg.data;
+    console.log(username);
+  })
+
+  sio.emit("load_all_messages");
+
   // Event handler for server sent data.
   // The callback function is invoked whenever the server emits data
   // to the client. The data is then displayed in the "Received"
   // section of the page.
-  sio.on('my_response', function(msg) {
-      $('#log').append('<br>' + $('<div/>').text(msg.user_name +" : "+ msg.data).html());
+  sio.on('message_add', function(msg) {
+    console.log(msg.id)
+    if(msg.id == username){
+      $('#log').append('<br>' + $('<li/>').text("You : "+ msg.data).html());
+    }
+    else{
+      $('#log').append('<br>' + $('<li/>').text(msg.user_name +" : "+ msg.data).html());
+    } 
+    
       /*
-      {%if current_user.first_name == note.user.first_name%}
+          {%if current_user.first_name == note.user.first_name%}
             {{"You: " + note.data}}
             &nbsp;
             <div type = "buttimg on" id = "editB" class = "edit" onclick = "editNote('{{note.id}}')">
@@ -75,7 +95,7 @@ $(document).ready(function() {
       clearTextArea("broadcast_data");
       return false;
   });
-  
+  /*
   $('form#join').submit(function(event) {
       sio.emit('join', {room: $('#join_room').val()});
       return false;
@@ -92,7 +112,7 @@ $(document).ready(function() {
       sio.emit('close_room', {room: $('#close_room').val()});
       return false;
   });
-  
+  */
 });
 
 function addUser(){

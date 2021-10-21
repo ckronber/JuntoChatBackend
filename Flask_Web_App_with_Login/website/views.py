@@ -9,14 +9,12 @@ from datetime import datetime
 import json
 
 views = Blueprint('views', __name__)
-
-async_type = None
+async_type = "eventlet"
 
 sio = SocketIO(async_type = async_type)
 #,ping_timeout=3,ping_interval=1
 thread = None
 thread_lock = Lock()
-
 
 def background_thread():
     """Example of how to send server generated events to clients."""
@@ -44,20 +42,25 @@ def home():
 @views.route('/') #,methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template('home.html', user=current_user,async_mode = sio.async_mode)
+    myNotes = Note.query.all()
+    return render_template('home.html',allNotes=myNotes,user=current_user,async_mode = sio.async_mode)
 
 @sio.event
 def my_event(message):
-    emit('my_response',{'data': message['data']})
+    pass
+    #emit('my_response',{'data': message['data']})
+
+@sio.event
+def getUser():
+    emit('c_user',{'data': current_user.id})
 
 @sio.event
 def my_broadcast_event(message):
-    #if(message['data']):
-        #session['receive_count'] = session.get('receive_count', 0) + 1
+    #session['receive_count'] = session.get('receive_count', 0) + 1
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    emit('my_response',{'user_name': f"{current_user.first_name}",'data':  f"{new_note.data}"},broadcast=True)
+    emit('message_add',{'user_name': f"{current_user.first_name}",'data':  f"{new_note.data}", 'id': f"{new_note.user_id}"},broadcast=True)
 
 @sio.event
 def edit_event(message):
@@ -76,8 +79,21 @@ def delete_event(message):
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    return results
+    edit = """
+        <div type = "button" id = "editB" class = "edit" onclick = "editNote('{{note.id}}')">
+            <span aria-hidden = "true"><img src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
+        </div>
+    """
+    delete = """
+        <div type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
+            <span aria-hidden="true">&times;</span>
+        </div>
+    """
+    #print(edit)
+    #for result in results:
+    #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})
 
+"""
 @sio.event
 def join(message):
     join_room(message['room'])
@@ -100,21 +116,7 @@ def my_room_event(message):
     emit('my_response',
          {'data': message['data']},
          to=message['room'])
-
-@sio.event
-def disconnect_request():
-    @copy_current_request_context
-    def can_disconnect():
-        disconnect()
-
-    # for this emit we use a callback function
-    # when the callback function is invoked we know that the message has been
-    # received and it is safe to disconnect
-    emit('my_response',
-         {'data': 'Disconnected!'},
-         callback=can_disconnect)
-
-
+"""
 @sio.event
 def my_ping():
     emit('my_pong')
@@ -125,11 +127,10 @@ def connect():
     with thread_lock:
         if thread is None:
             thread = sio.start_background_task(background_thread)
-    #emit('my_response', {'data': 'Connected'})
     print(f"{current_user.first_name} connected")
     
-@sio.on('disconnect')
-def test_disconnect():
+@sio.event
+def disconnect():
     print('Client disconnected', request.sid)
 
 @views.route('/delete-note', methods=['POST'])

@@ -15,7 +15,8 @@ body{
 }
 
 #chatStuff{
-    width:max-content;
+    max-width: auto;
+    display:inline-flexbox;
     background-color:transparent;
     height: auto;   
     text-align: left;
@@ -49,6 +50,8 @@ body{
 .edit{
     border:transparent;
     background-color:transparent;
+    padding:0%;
+    margin:0%;
 }
 
 .edit:hover{
@@ -61,20 +64,29 @@ body{
 #closeX{
     color:red;
     border:transparent;
-    max-width: auto;
+    width:2rem;
     height:auto;
-    display: inline-block;
+    display: inline-flexbox;
+    position:relative;
 }
 
 #closeX:hover{
     color:red;
     border:transparent;
+    align-content: left;
 }
 
 #editB{
-    max-width: auto;
-    height:auto;
     display: inline-block;
+    margin:0%;
+    padding:0%;
+ }
+
+ #editImage{
+     height:1.2rem;
+     width:1.2rem;
+     padding:0%;
+     margin:0%;
  }
 
 
@@ -102,4 +114,9 @@ body{
 
 #broadcast{
     display:-ms-inline-flexbox;
+}
+
+#messageArea{
+    width:max-width;
+    height: 30rem;
 }
