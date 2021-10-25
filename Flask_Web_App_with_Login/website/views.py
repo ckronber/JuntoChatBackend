@@ -146,10 +146,11 @@ def deletenote():
     
     return jsonify({})
 
-@views.route('/edit-note', methods=['POST','GET'])
+@views.route('/edit-note', methods=['GET','POST'])
 @login_required
 def editNote():
     note = json.loads(request.data)
+    print(f"{note['noteId']}: {note['note_data']}")
     noteId = note['noteId']
     note_data = note['note_data']
     note = Note.query.get(noteId)

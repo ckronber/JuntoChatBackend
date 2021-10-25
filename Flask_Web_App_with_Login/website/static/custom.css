@@ -15,14 +15,25 @@ body{
 }
 
 #chatStuff{
-    max-width: auto;
-    display:inline-flexbox;
+    max-width: max-content;
     background-color:transparent;
     height: auto;   
     text-align: left;
     padding: .3rem;
-    margin-top: .3rem;
+    margin-top: .2rem;
     border:none;
+}
+
+#otherList{
+    max-width: auto;
+    max-width: max-content;
+    background-color:transparent;
+    padding: .1rem;
+    padding-right: .5rem;
+    margin: .1rem;
+    border-radius: 1rem;
+    height: auto;   
+    border: none;
 }
 
 #broadcast_data{
@@ -41,17 +52,12 @@ body{
     bottom: 2rem;
 }
 
-#others{
-    align-content:right;
-}
-
 
 /* close and edit buttons here*/
 .edit{
-    border:transparent;
+    border:none;
     background-color:transparent;
-    padding:0%;
-    margin:0%;
+    display: inline;
 }
 
 .edit:hover{
@@ -61,33 +67,27 @@ body{
     border-radius: 5rem;
 }
 
-#closeX{
-    color:red;
-    border:transparent;
-    width:2rem;
-    height:auto;
-    display: inline-flexbox;
-    position:relative;
-}
-
-#closeX:hover{
-    color:red;
-    border:transparent;
-    align-content: left;
-}
-
-#editB{
-    display: inline-block;
-    margin:0%;
-    padding:0%;
+#log{
+    display:inline-flexbox;
  }
 
  #editImage{
      height:1.2rem;
      width:1.2rem;
-     padding:0%;
-     margin:0%;
  }
+
+
+#closeX{
+    color:red;
+    border:none;
+    width:2rem;
+    height:auto;
+}
+
+#closeX:hover{
+    color:red;
+    border:transparent;
+}
 
 
  /* users added here */
@@ -102,7 +102,7 @@ body{
 
 #submitMessage{
     background-image: url("./images/send1.png");
-    margin: .4rem;
+    margin: .6rem;
     width:3rem;
     height:3rem;
     background-size: 100% 100%;
@@ -119,4 +119,15 @@ body{
 #messageArea{
     width:max-width;
     height: 30rem;
+}
+
+#edDel{
+    width:fit-content;
+    display:inline-block;
+}
+
+#msgEdit{
+    width: fit-content;
+    display:inline-block;
+    height: fit-content;
 }

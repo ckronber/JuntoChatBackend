@@ -1,6 +1,12 @@
 var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
+var edit = document.getElementById("edDel").outerHTML;
+var listElement = document.createElement("li");
+listElement.setAttribute("id", "msgEdit");
+
+console.log(edit);
+
 var username;
 const sio = io();
 
@@ -23,37 +29,19 @@ $(document).ready(function() {
   sio.on('c_user', function(msg) {
     username = msg.data;
     console.log(username);
-  })
+  });
 
   sio.emit("load_all_messages");
 
-  // Event handler for server sent data.
-  // The callback function is invoked whenever the server emits data
-  // to the client. The data is then displayed in the "Received"
-  // section of the page.
+  //message receiving message add from socketio server emit message_add
   sio.on('message_add', function(msg) {
-    console.log(msg.id)
-    if(msg.id == username){
-      $('#log').append('<br>' + $('<li/>').text("You : "+ msg.data).html());
-    }
-    else{
-      $('#log').append('<br>' + $('<li/>').text(msg.user_name +" : "+ msg.data).html());
-    } 
-    
-      /*
-          {%if current_user.first_name == note.user.first_name%}
-            {{"You: " + note.data}}
-            &nbsp;
-            <div type = "buttimg on" id = "editB" class = "edit" onclick = "editNote('{{note.id}}')">
-              <span aria-hidden = "true"><src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
-            </div>  &nbsp;
-             <div type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
-               <span aria-hidden="true">&times;</span>
-             </div>
-          {%else%} 
-            {{note.user.first_name + ": " + note.data}}
-          {%endif%}
-        */
+      if(msg.id == username){
+        $('#log').append("You : "+ msg.data + edit);
+      }
+      else{
+        listElement = msg.user_name + " : " +  msg.data;
+        $('#log').append(listElement);
+      } 
     });
 
   // Interval function that tests message latency by sending a "ping"
@@ -90,11 +78,13 @@ $(document).ready(function() {
       sio.emit('my_event', {data: $('#emit_data').val()});
       return false;
   });
+
   $('form#broadcast').submit(function(event) {
       sio.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
       clearTextArea("broadcast_data");
       return false;
   });
+
   /*
   $('form#join').submit(function(event) {
       sio.emit('join', {room: $('#join_room').val()});
@@ -146,10 +136,11 @@ function deleteNote(noteId) {
   });
 }
 
-function editNote(noteId){ 
+function editNote(noteId){
+  console.log('message ID: ', noteId);
   n_data = prompt("Enter edited text");
   fetch("/edit-note", {
-    methods: ["GET","POST"],
+    method: "POST",
     body: JSON.stringify({ noteId: noteId, note_data: n_data}),
   }).then((_res) => {
     window.location.href = "/";
