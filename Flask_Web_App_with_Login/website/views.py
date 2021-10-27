@@ -12,7 +12,6 @@ views = Blueprint('views', __name__)
 async_type = "eventlet"
 
 sio = SocketIO(async_type = async_type)
-#,ping_timeout=3,ping_interval=1
 thread = None
 thread_lock = Lock()
 
@@ -60,35 +59,36 @@ def my_broadcast_event(message):
     new_note = Note(data=message['data'], date = datetime.now(),user_id = current_user.id)
     db.session.add(new_note)
     db.session.commit()
-    emit('message_add',{'user_name': f"{current_user.first_name}",'data':  f"{new_note.data}", 'id': f"{new_note.user_id}"},broadcast=True)
+    edit = """
+    <div id = "edDel">
+        <div type = "button" id = "editB">
+            <img src="./static/images/edit.png" id = "editImage" onclick = "editNote('{{note.id}}')">
+        </div>
+        &nbsp;
+        <button type="button" class="btn-close" id = "closeX" aria-label="Close" onclick="deleteNote('{{note.id}}')"></button>
+    </div>
+    """
+    emit('message_add',{'user_name': f"{current_user.first_name}",'data':  f"{new_note.data}", 'id': f"{new_note.user_id}", 'edit':edit} ,broadcast=True)
 
 @sio.event
 def edit_event(message):
     if(message['data']):
+        
         pass
         #session['receive_count'] = session.get('receive_count', 0) + 1
         #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
 
 @sio.event
 def delete_event(message):
+    #session['receive_count'] = session.get('receive_count', 0) + 1
     if(message['data']):
         pass
-        #session['receive_count'] = session.get('receive_count', 0) + 1
         #emit('my_response',{'data':  f"{current_user.first_name} : {new_note.data}"},broadcast=True)
     
 @sio.event
 def load_all_messages():
     results = Note.query.all()
-    edit = """
-        <div type = "button" id = "editB" class = "edit" onclick = "editNote('{{note.id}}')">
-            <span aria-hidden = "true"><img src="../static/images/edit.png" width = "20rem" height = "20rem" alt="edit"></span> 
-        </div>
-    """
-    delete = """
-        <div type="button" class="close" id="closeX" onclick="deleteNote('{{note.id}}')">
-            <span aria-hidden="true">&times;</span>
-        </div>
-    """
+    
     #print(edit)
     #for result in results:
     #    emit("saved_messages", {'data': result.data, 'note_id': result.id, 'user_id':result.user_id, 'note_date':result.date})

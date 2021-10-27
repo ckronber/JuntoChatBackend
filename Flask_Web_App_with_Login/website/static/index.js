@@ -2,33 +2,69 @@ var submit = document.getElementById("submitMessage").value;
 var form = document.getElementById("listItem");
 var input = document.getElementById("noteMSG");
 var edit = document.getElementById("edDel").outerHTML;
+
 var listElement = document.createElement("li");
 listElement.setAttribute("id", "msgEdit");
 
+function showEditModal(){
+  editModal = `
+  <!-- Modal -->
+  <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          ...
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+      </div>
+  </div>
+  </div>
+  `;
+  
+  $('body').append(editModal.show());
+}
+
 console.log(edit);
 
-var username;
+var username,thisUser;
 const sio = io();
 
+function scrollTobottom(){
+  var objDiv = document.getElementById("messageArea");
+  objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+//Gets the currentUser
 function getCurrentUser(){
   sio.emit("getUser");
 }
 
 $(document).ready(function() {
   sio.on("disconnect", () => {
-    console.log("user disconnected");
+    onlineData = 0;
+    myModal.dispose()
+    console.log("disconnected");
   });
 
   sio.on('connect', function() {
-    //sio.emit('my_event', {data: 'I\'m connected!'});
+    onlineData = 1;
     console.log("connected!")
   });
-
+  
   getCurrentUser();
+  scrollTobottom();
 
   sio.on('c_user', function(msg) {
     username = msg.data;
-    console.log(username);
   });
 
   sio.emit("load_all_messages");
@@ -36,12 +72,13 @@ $(document).ready(function() {
   //message receiving message add from socketio server emit message_add
   sio.on('message_add', function(msg) {
       if(msg.id == username){
-        $('#log').append("You : "+ msg.data + edit);
+        $('#log').append("<li class='list-group-item' id = 'chatStuff'>You : "+ msg.data +"&nbsp;"+msg.edit +"</li>");
       }
       else{
         listElement = msg.user_name + " : " +  msg.data;
         $('#log').append(listElement);
       } 
+      scrollTobottom()
     });
 
   // Interval function that tests message latency by sending a "ping"
@@ -137,6 +174,8 @@ function deleteNote(noteId) {
 }
 
 function editNote(noteId){
+  showEditModal();
+  /*
   console.log('message ID: ', noteId);
   n_data = prompt("Enter edited text");
   fetch("/edit-note", {
@@ -144,7 +183,7 @@ function editNote(noteId){
     body: JSON.stringify({ noteId: noteId, note_data: n_data}),
   }).then((_res) => {
     window.location.href = "/";
-  });
+  });*/
 }
 
 function showPass(){

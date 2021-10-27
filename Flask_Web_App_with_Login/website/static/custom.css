@@ -15,6 +15,7 @@ body{
 }
 
 #chatStuff{
+    color:rgb(52, 180, 159);
     max-width: max-content;
     background-color:transparent;
     height: auto;   
@@ -25,6 +26,7 @@ body{
 }
 
 #otherList{
+    color:rgb(52, 180, 159);
     max-width: auto;
     max-width: max-content;
     background-color:transparent;
@@ -41,7 +43,7 @@ body{
 }
 
 .UserList{
-    background-color:darkslategray;
+    background-color:rgba(0, 0, 0,.5);
     margin-top: -1rem;
     padding-top: .2rem;
 }
@@ -52,15 +54,14 @@ body{
     bottom: 2rem;
 }
 
-
 /* close and edit buttons here*/
-.edit{
+#editB{
     border:none;
     background-color:transparent;
     display: inline;
 }
 
-.edit:hover{
+#editB:hover{
     border:transparent;
     background-color:transparent;
     background-color:goldenrod;
@@ -78,15 +79,15 @@ body{
 
 
 #closeX{
-    color:red;
     border:none;
-    width:2rem;
+    width:.8rem;
     height:auto;
+    border-radius: 1;
+    size: .6;
 }
 
 #closeX:hover{
-    color:red;
-    border:transparent;
+    background-color: red;
 }
 
 
@@ -113,17 +114,19 @@ body{
 }
 
 #broadcast{
-    display:-ms-inline-flexbox;
+    display:inline-flexbox;
 }
 
 #messageArea{
-    width:max-width;
+    /*width:max-width;*/
     height: 30rem;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 1rem;
 }
 
 #edDel{
     width:fit-content;
-    display:inline-block;
+    display:inline-flex;
 }
 
 #msgEdit{
