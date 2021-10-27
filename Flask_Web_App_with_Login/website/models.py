@@ -1,4 +1,3 @@
-from enum import unique
 from sqlalchemy.sql.functions import user
 from flask_login import UserMixin
 from sqlalchemy.sql import func

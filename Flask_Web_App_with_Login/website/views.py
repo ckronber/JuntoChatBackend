@@ -42,7 +42,7 @@ def home():
 @login_required
 def home():
     myNotes = Note.query.all()
-    return render_template('home.html',allNotes=myNotes,user=current_user,async_mode = sio.async_mode)
+    return render_template('home.html',allNotes=myNotes,user=current_user,async_mode = sio.async_mode) #,async_mode = sio.async_mode
 
 @sio.event
 def my_event(message):
